@@ -22,10 +22,10 @@ In terms of addon packages I used it included Dapper for ORM work, SQL server fo
 
 ## What I felt went well
 
-I was please to achieve what felt like the right division of domain objects. The Broker is a bit of an extension to the spec as the Broker is only mentioned as an Id on a trade but I fleshed that out a little, the methods for that are not all there for full CRUD and management of the Brokers in the database. The same is somewhat true of the Stock domain model, I’ve not built out all of the actions for that domain model that you might typically expect. 
+I was please to achieve what felt like the right division of domain objects. The Broker is a bit of an extension to the spec as the Broker is only mentioned as an Id on a trade but I fleshed that out a little, the methods for that are not all there for full CRUD and management of the Brokers in the database. The same is somewhat true of the Stock domain model, I’ve not built out all of the actions for that domain model that you might typically expect.<br />
 
 I thought it was a good idea to include an idempotency check on the trades. This wasn’t mentioned in the spec but seemed logical. It’s not unheard of for trades to come in twice by mistake or even, following some sort of outage or incident, some trades to be replayed as part of a recovery process. Therefore by have an idempotent id on the trade this can be checked and double processing prevented. 
-Having the trade table record the trades but the overall average be held on the stock table felt right as well. In a way the trade table is heading towards a form of event sourcing as the trades are really events of a tickersymbol/stock lifespan.
+Having the trade table record the trades but the overall average be held on the stock table felt right as well. In a way the trade table is heading towards a form of event sourcing as the trades are really events of a tickersymbol/stock lifespan.<br />
 
 I feel like I got a good level of unit test coverage in this project. Higher levels of the test pyramid were not really covered due to time, apart from the pseudo integration tests for the repositories. 
 Last but not least I believe I have covered the explicit bit of functionality mentioned in the brief. 
