@@ -3,17 +3,18 @@
 My implementation of the API is something of a compromise given time restrictions, but I decided to progress with a Domain Driven Design approach which lends itself to SOLID optimisation as well where possible. I also tried to follow a clean architecture pattern with how I arranged my projects.
 
 There are other ways which the same functionality could be achieved and if this were something that were to become a real stock exchange I would suggest a different approach which would be more complicated. These other approaches will be covered later. 
-Solution Structure
+
+## Solution Structure
 So given the above I determined my solution would have separate project for each of the clean architecture type layers as well as a test project. So we have:
-•	StockAPI – which contains the top level WebAPI. This is where I anticipated trades would be posted to and calls to fetch stocks etc from some client app. 
-•	StockAPI. Application – this is where I wanted to hold my business logic. In this simple example there is not a huge amount of business logic going on in addition to CRUD style pass through methods but what there is, is here. I opted to use Services relating to the domain models as often the logic was acting on collections of a domain model or made use of other resources that would not be appropriate in a domain model (I’m thinking of the method to insert a trade and update the average stock value).
-•	StockAPI.Domain – Here I put my Domain models and all the interfaces that would be used in other parts of the system as per Clean Architecture principles. My Domain models are:
-o	Trade
-o	Stock
-o	Broker
+*	StockAPI – which contains the top level WebAPI. This is where I anticipated trades would be posted to and calls to fetch stocks etc from some client app. 
+*	StockAPI. Application – this is where I wanted to hold my business logic. In this simple example there is not a huge amount of business logic going on in addition to CRUD style pass through methods but what there is, is here. I opted to use Services relating to the domain models as often the logic was acting on collections of a domain model or made use of other resources that would not be appropriate in a domain model (I’m thinking of the method to insert a trade and update the average stock value).
+*	StockAPI.Domain – Here I put my Domain models and all the interfaces that would be used in other parts of the system as per Clean Architecture principles. My Domain models are:
+-	Trade
+-	Stock
+-	Broker
 I also placed in here a custom exception I created for use with my idempotency check I implemented. If felt like it should be hosted here. 
-•	StockAPI.Infrastructure – here I defined the implementations of the Repository interfaces that can be found in the Domain layer. I used Dapper to connect to a local instance of SQL Server
-•	StockAPI.Tests – Test project containing mostly unit tests and a form of integration test ( at least that’s how I thought of them as) for the repositories using a SQLite in memory database. 
+*	StockAPI.Infrastructure – here I defined the implementations of the Repository interfaces that can be found in the Domain layer. I used Dapper to connect to a local instance of SQL Server
+*	StockAPI.Tests – Test project containing mostly unit tests and a form of integration test ( at least that’s how I thought of them as) for the repositories using a SQLite in memory database. 
 I’ve also included a database creation script in the root of the git repository to create the tables from my local db. 
 In terms of addon packages I used it included Dapper for ORM work, SQL server for the actual database, SQLite for the in memory test database. Xunit and moq for testing. I used Lamar as my IoC container as well.
 
