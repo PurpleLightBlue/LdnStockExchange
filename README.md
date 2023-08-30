@@ -6,12 +6,13 @@ There are other ways which the same functionality could be achieved and if this 
 
 ## Solution Structure
 So given the above I determined my solution would have separate project for each of the clean architecture type layers as well as a test project. So we have:
+
 *	StockAPI – which contains the top level WebAPI. This is where I anticipated trades would be posted to and calls to fetch stocks etc from some client app. 
 *	StockAPI. Application – this is where I wanted to hold my business logic. In this simple example there is not a huge amount of business logic going on in addition to CRUD style pass through methods but what there is, is here. I opted to use Services relating to the domain models as often the logic was acting on collections of a domain model or made use of other resources that would not be appropriate in a domain model (I’m thinking of the method to insert a trade and update the average stock value).
 *	StockAPI.Domain – Here I put my Domain models and all the interfaces that would be used in other parts of the system as per Clean Architecture principles. My Domain models are:
--	Trade
--	Stock
--	Broker
+  -	Trade
+  -	Stock
+  -	Broker
 I also placed in here a custom exception I created for use with my idempotency check I implemented. If felt like it should be hosted here. 
 *	StockAPI.Infrastructure – here I defined the implementations of the Repository interfaces that can be found in the Domain layer. I used Dapper to connect to a local instance of SQL Server
 *	StockAPI.Tests – Test project containing mostly unit tests and a form of integration test ( at least that’s how I thought of them as) for the repositories using a SQLite in memory database. 
@@ -21,6 +22,7 @@ In terms of addon packages I used it included Dapper for ORM work, SQL server fo
 ## What I felt went well
 
 I was please to achieve what felt like the right division of domain objects. The Broker is a bit of an extension to the spec as the Broker is only mentioned as an Id on a trade but I fleshed that out a little, the methods for that are not all there for full CRUD and management of the Brokers in the database. The same is somewhat true of the Stock domain model, I’ve not built out all of the actions for that domain model that you might typically expect. 
+
 I thought it was a good idea to include an idempotency check on the trades. This wasn’t mentioned in the spec but seemed logical. It’s not unheard of for trades to come in twice by mistake or even, following some sort of outage or incident, some trades to be replayed as part of a recovery process. Therefore by have an idempotent id on the trade this can be checked and double processing prevented. 
 Having the trade table record the trades but the overall average be held on the stock table felt right as well. In a way the trade table is heading towards a form of event sourcing as the trades are really events of a tickersymbol/stock lifespan.
 I feel like I got a good level of unit test coverage in this project. Higher levels of the test pyramid were not really covered due to time, apart from the pseudo integration tests for the repositories. 
