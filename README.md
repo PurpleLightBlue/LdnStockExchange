@@ -1,11 +1,11 @@
 # London Stock API
 
-My implementation of the API is something of a compromise given time restrictions, but I decided to progress with a Domain Driven Design approach which lends itself to SOLID optimisation as well where possible. I also tried to follow a clean architecture pattern with how I arranged my projects.
+My implementation of the API is something of a compromise given time restrictions, but I decided to progress with a Domain Driven Design approach which lends itself to SOLID optimisation as well where possible. I also tried to follow a clean architecture pattern with how I arranged my projects.<br />
 
-There are other ways which the same functionality could be achieved and if this were something that were to become a real stock exchange I would suggest a different approach which would be more complicated. These other approaches will be covered later. 
+There are other ways which the same functionality could be achieved and if this were something that were to become a real stock exchange I would suggest a different approach which would be more complicated. These other approaches will be covered later. <br />
 
 ## Solution Structure
-So given the above I determined my solution would have separate project for each of the clean architecture type layers as well as a test project. So we have:
+So given the above I determined my solution would have separate project for each of the clean architecture type layers as well as a test project. So we have:<br />
 
 *	StockAPI – which contains the top level WebAPI. This is where I anticipated trades would be posted to and calls to fetch stocks etc from some client app. 
 *	StockAPI. Application – this is where I wanted to hold my business logic. In this simple example there is not a huge amount of business logic going on in addition to CRUD style pass through methods but what there is, is here. I opted to use Services relating to the domain models as often the logic was acting on collections of a domain model or made use of other resources that would not be appropriate in a domain model (I’m thinking of the method to insert a trade and update the average stock value).
